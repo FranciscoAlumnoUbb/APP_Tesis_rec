@@ -1,0 +1,40 @@
+# 🧠 Ignorar modelos entrenados grandes, pero no los assets de la app
+*.pt
+*.h5
+*.onnx
+*.tflite
+
+# 👇 No ignores los archivos del modelo empaquetado en assets
+!assets/model/*
+!assets/model/*.json
+!assets/model/*.bin
+
+# 📊 Datos y notebooks
+datasets/
+scripts/
+notebooks/
+data/
+models/
+venv/
+
+# ⚠️ Backend
+api/
+
+# 🧪 Build y carpetas del sistema
+node_modules/
+build/
+dist/
+.expo/
+.expo-shared/
+web-build/
+
+# IDE y sistema
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+
+# Variables de entorno
+.env
+.env.*

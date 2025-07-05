@@ -1,0 +1,55 @@
+{
+  "expo": {
+    "name": "RecyclAIDeep",
+    "slug": "RecyclAIDeep",
+    "version": "1.0.0",
+    "owner": "josepxlagos17",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "recyclaideep",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/splash.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "com.josepxlagos17.RecyclAIDeep"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff"
+        }
+      ],
+      "expo-web-browser"
+    ],
+    "assetBundlePatterns": [
+       "assets/raw_model/*",
+  "assets/images/*"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "33cded65-a0de-44cc-b794-5a60bfe1f91b"
+      }
+    }
+  }
+}

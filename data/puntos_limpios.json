@@ -1,0 +1,80 @@
+[
+  {
+    "nombre": "El Monito",
+    "direccion": "Antártica Chilena 1535, Chillán",
+    "lat": -36.601527,
+    "lng": -72.108701,
+    "materiales": ["Papel", "Cartón", "Latas", "PET"]
+  },
+  {
+    "nombre": "Gotitas de Amor",
+    "direccion": "Pasaje Maullín 1079, Villa Chiloé, Chillán",
+    "lat": -36.599522,
+    "lng": -72.108963,
+    "materiales": ["Papel", "Cartón", "Latas", "PET"]
+  },
+  {
+    "nombre": "Marta Colvin",
+    "direccion": "Reloncaví 1250, Chillán",
+    "lat": -36.601071,
+    "lng": -72.107294,
+    "materiales": ["Papel", "Cartón", "Latas", "PET"]
+  },
+  {
+    "nombre": "Libertador",
+    "direccion": "Av. Real Audiencia 1105, Chillán",
+    "lat": -36.601244,
+    "lng": -72.103327,
+    "materiales": ["Papel", "Cartón", "Latas", "PET"]
+  },
+  {
+    "nombre": "Cesfam Isabel Riquelme",
+    "direccion": "Los Batallones 1523, Chillán",
+    "lat": -36.602883,
+    "lng": -72.109773,
+    "materiales": ["Papel", "Cartón", "Latas", "Pilas", "PET"]
+  },
+  {
+    "nombre": "Ramón Vinay",
+    "direccion": "Humapalca 1960, Chillán",
+    "lat": -36.600968,
+    "lng": -72.111487,
+    "materiales": ["Papel", "Cartón", "Latas", "PET"]
+  },
+  {
+    "nombre": "Escuela El Tejar",
+    "direccion": "Av. El Tejar 127, Chillán",
+    "lat": -36.604223,
+    "lng": -72.104314,
+    "materiales": ["Papel", "Cartón", "Latas", "PET"]
+  },
+  {
+  "nombre": "Punto Limpio Municipal",
+  "direccion": "Prolongación Arturo Prat 153, Chillán",
+  "lat": -36.6018,
+  "lng": -72.1035,
+  "materiales": ["Papel", "Cartón", "Latas", "PET", "Vidrio", "Pilas", "Aceite comestible"]
+}
+,
+  {
+    "nombre": "CCP San Rafael",
+    "direccion": "Bulnes 753, Chillán",
+    "lat": -36.605106,
+    "lng": -72.102280,
+    "materiales": ["Papel", "Cartón", "Latas", "PET"]
+  },
+  {
+    "nombre": "Mi Pequeña Lunita",
+    "direccion": "Matucana 990, Chillán",
+    "lat": -36.606179,
+    "lng": -72.100289,
+    "materiales": ["Papel", "Cartón", "Latas", "PET"]
+  },
+  {
+    "nombre": "Cesfam Quinchamalí",
+    "direccion": "Camino Real s/n, Chillán",
+    "lat": -36.603172,
+    "lng": -72.097381,
+    "materiales": ["Papel", "Cartón", "Latas", "Pilas", "PET"]
+  }
+]
