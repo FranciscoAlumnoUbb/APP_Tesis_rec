@@ -1,9 +1,9 @@
 {
   "expo": {
     "name": "RecyclAIDeep",
-    "slug": "RecyclAIDeep",
+    "slug": "recyclaideep-tesis-2025",
     "version": "1.0.0",
-    "owner": "josepxlagos17",
+    "owner": "yalersin",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "recyclaideep",
@@ -18,7 +18,7 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.josepxlagos17.RecyclAIDeep"
+      "package": "com.yalersin.recyclaideep"
     },
     "web": {
       "bundler": "metro",
@@ -39,8 +39,8 @@
       "expo-web-browser"
     ],
     "assetBundlePatterns": [
-       "assets/raw_model/*",
-  "assets/images/*"
+      "assets/raw_model/*",
+      "assets/images/*"
     ],
     "experiments": {
       "typedRoutes": true
@@ -48,7 +48,7 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "33cded65-a0de-44cc-b794-5a60bfe1f91b"
+        "projectId": "b56e8337-adf8-440d-931c-27db463d2323"
       }
     }
   }
