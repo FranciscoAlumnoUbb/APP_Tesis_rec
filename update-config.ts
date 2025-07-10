@@ -33,7 +33,7 @@ const outputPath = join(__dirname, '..', 'app', 'constants', 'config.ts');
 mkdirSync(join(__dirname, '..', 'app', 'constants'), { recursive: true });
 
 // Contenido del archivo
-const content = `export const API_URL = 'http://${localIp}:5000';\n`;
+const content = `export const API_URL = 'http://${localIp}:8000';\n`;
 
 try {
   writeFileSync(outputPath, content);

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Text, View, ScrollView } from 'react-native';
-import { loadTFJSModel } from '../services/loadTFModel';
+// import { loadTFJSModel } from '../services/loadTFModel'; // TEMPORALMENTE DESHABILITADO
 
 export default function OfflineTest() {
   const [status, setStatus] = useState('Cargando modelo...');
@@ -8,9 +8,11 @@ export default function OfflineTest() {
   useEffect(() => {
     const init = async () => {
       try {
-        const model = await loadTFJSModel();
-        if (model) setStatus('✅ Modelo cargado correctamente');
-        else setStatus('❌ Falló la carga del modelo');
+        // TEMPORALMENTE DESHABILITADO
+        setStatus('⚠️ TensorFlow.js no está configurado. Solo predicción online disponible.');
+        // const model = await loadTFJSModel();
+        // if (model) setStatus('✅ Modelo cargado correctamente');
+        // else setStatus('❌ Falló la carga del modelo');
       } catch (e) {
         console.error(e);
         setStatus('❌ Error general al iniciar');

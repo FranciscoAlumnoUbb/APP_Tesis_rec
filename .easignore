@@ -1,40 +1,56 @@
-# 🧠 Ignorar modelos entrenados grandes, pero no los assets de la app
-*.pt
-*.h5
-*.onnx
-*.tflite
+# EAS Build ignore - Optimizado para aplicación móvil liviana
 
-# 👇 No ignores los archivos del modelo empaquetado en assets
-!assets/model/*
-!assets/model/*.json
-!assets/model/*.bin
+# Archivos de desarrollo y documentación
+README.md
+SETUP_MODELS.md
+*.md
 
-# 📊 Datos y notebooks
-datasets/
+# Archivos de testing
+test_postman.py
+testRequire.ts
+requirements.txt
+
+# Scripts de utilidad
+rename-model-assets.js
+update-config.ts
 scripts/
-notebooks/
-data/
-models/
+
+# Entorno virtual de Python
 venv/
+__pycache__/
+*.pyc
+*.pyo
 
-# ⚠️ Backend
-api/
-
-# 🧪 Build y carpetas del sistema
-node_modules/
-build/
-dist/
-.expo/
-.expo-shared/
-web-build/
-
-# IDE y sistema
-.DS_Store
-Thumbs.db
+# Archivos de configuración de desarrollo
 .vscode/
 .idea/
 *.log
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
 
 # Variables de entorno
 .env
 .env.*
+
+# Archivos temporales
+*.tmp
+*.temp
+
+# Mantener solo los assets esenciales
+!assets/model/best_float16.tflite
+!assets/model/tfjs_model.zip
+!assets/raw_model/model.json
+!assets/raw_model/*.bin
+!assets/images/icon.png
+!assets/images/favicon.png
+!assets/images/splash-icon.png
+!assets/images/adaptive-icon.png
+!assets/splash.png
+!assets/*.png
+!assets/*.jpg
+!assets/fonts/*

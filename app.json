@@ -18,7 +18,14 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.yalersin.recyclaideep"
+      "package": "com.yalersin.recyclaideep",
+      "usesCleartextTraffic": true,
+      "permissions": [
+        "CAMERA",
+        "INTERNET",
+        "ACCESS_NETWORK_STATE",
+        "ACCESS_WIFI_STATE"
+      ]
     },
     "web": {
       "bundler": "metro",

@@ -2,16 +2,22 @@ import { useRouter } from 'expo-router';
 import {
   View,
   Text,
-  ScrollView,
   StyleSheet,
   Image,
   SafeAreaView,
   ImageBackground,
+  TouchableOpacity,
+  Dimensions,
+  Platform,
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function HomeScreen() {
   const router = useRouter();
+  const { width: screenWidth } = Dimensions.get('window');
+  
+  // Calcular el tamaño de las tarjetas basado en el ancho de pantalla
+  const cardSize = Math.min((screenWidth - 60) / 3, 120); // 60px para padding y gaps, máximo 120px
 
   const items = [
     { name: 'Lata', icon: 'trash-can', color: '#0CE3AC' },
@@ -29,10 +35,8 @@ export default function HomeScreen() {
       resizeMode="cover"
     >
       <SafeAreaView style={styles.safeArea}>
-        <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        <Text style={styles.title}>
-            
-          </Text>
+        {/* Header fijo con título y robot */}
+        <View style={styles.header}>
           <Text style={styles.title}>
             Recycl<Text style={styles.titleAccent}>AI</Text>Deep
           </Text>
@@ -43,33 +47,80 @@ export default function HomeScreen() {
             ⚡ Impulsado por <Text style={styles.titleAccent}>Inteligencia Artificial</Text>{'\n'}
             para un planeta más limpio 🌍♻️
           </Text>
+        </View>
 
-          <View style={styles.grid}>
-            {items.map((item, index) => (
-              <View
+        {/* Cuadrícula estática 2x3 (sin scroll) */}
+        <View style={styles.gridContainer}>
+          {/* Fila 1 */}
+          <View style={styles.row}>
+            {items.slice(0, 3).map((item, index) => (
+              <TouchableOpacity
                 key={index}
                 style={[
                   styles.card,
                   {
-                    backgroundColor: `${item.color}`, // Fondo translúcido
+                    backgroundColor: item.color,
                     borderColor: item.color,
                     shadowColor: item.color,
-
+                    width: cardSize,
+                    height: cardSize,
                   },
                 ]}
+                onPress={() => router.push('/camera')}
               >
                 <MaterialCommunityIcons
                   name={item.icon as any}
-                  size={36}
+                  size={cardSize * 0.32} // Icono proporcional al tamaño de la tarjeta
                   color="black"
                 />
-                <Text style={[styles.cardText, { color: item.textColor || '#000' }]}>
+                <Text style={[
+                  styles.cardText, 
+                  { 
+                    color: item.textColor || '#000',
+                    fontSize: cardSize * 0.12, // Texto proporcional al tamaño de la tarjeta
+                  }
+                ]}>
                   {item.name}
                 </Text>
-              </View>
+              </TouchableOpacity>
             ))}
           </View>
-        </ScrollView>
+          
+          {/* Fila 2 */}
+          <View style={styles.row}>
+            {items.slice(3, 6).map((item, index) => (
+              <TouchableOpacity
+                key={index + 3}
+                style={[
+                  styles.card,
+                  {
+                    backgroundColor: item.color,
+                    borderColor: item.color,
+                    shadowColor: item.color,
+                    width: cardSize,
+                    height: cardSize,
+                  },
+                ]}
+                onPress={() => router.push('/camera')}
+              >
+                <MaterialCommunityIcons
+                  name={item.icon as any}
+                  size={cardSize * 0.32} // Icono proporcional al tamaño de la tarjeta
+                  color="black"
+                />
+                <Text style={[
+                  styles.cardText, 
+                  { 
+                    color: item.textColor || '#000',
+                    fontSize: cardSize * 0.12, // Texto proporcional al tamaño de la tarjeta
+                  }
+                ]}>
+                  {item.name}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
       </SafeAreaView>
     </ImageBackground>
   );
@@ -85,11 +136,19 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'transparent',
   },
-  scrollContent: {
+  header: {
+    alignItems: 'center',
     paddingTop: 40,
     paddingHorizontal: 20,
-    paddingBottom: 100,
+    paddingBottom: 20,
+    backgroundColor: 'rgba(0, 0, 0, 0.1)', // Fondo semi-transparente para destacar el header
+  },
+  gridContainer: {
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingBottom: 100, // Espacio para la barra de tabs
   },
   title: {
     fontSize: 34,
@@ -112,29 +171,27 @@ const styles = StyleSheet.create({
     height: 280,
     marginBottom: 10,
   },
-  grid: {
+  row: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    gap: 12,
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    marginBottom: 20,
+    width: '100%',
   },
   card: {
-    width: 110,
-    height: 110,
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 6,
     borderWidth: 2,
     elevation: 10,
     shadowOpacity: 0.6,
     shadowRadius: 12,
     shadowOffset: { width: 0, height: 0 },
+    marginHorizontal: 5,
   },
   cardText: {
     marginTop: 6,
     fontWeight: 'bold',
-    fontSize: 14,
     textAlign: 'center',
   },
 });

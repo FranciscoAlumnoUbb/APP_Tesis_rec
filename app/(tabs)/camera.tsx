@@ -56,26 +56,22 @@ export default function CameraScreen() {
       console.log('✅ Resultado:', data);
 
       if (!data.detections || data.detections.length === 0) {
-        setImageUri(null); // ✅ Limpiar imagen si no hay detección
         Alert.alert('Sin detección', 'No se encontraron objetos.');
         return;
       }
-
-      setImageUri(resized.uri); // ✅ Mostrar imagen procesada solo si hay detección
 
       router.push({
         pathname: '/result',
         params: {
           clase: data.detections[0]?.label || 'desconocido',
           confianza: data.detections[0]?.confidence?.toString() || '0',
-          boundingBoxes: JSON.stringify(data.detections || []), // ✅ Valor por defecto más seguro
+          boundingBoxes: JSON.stringify(data.detections),
           uri: resized.uri,
         },
       });
     } catch (error) {
       console.error('❌ Error en predicción:', error);
       Alert.alert('Error', 'No se pudo procesar la imagen.');
-      setImageUri(null); // ✅ Limpiar imagen si falla
     } finally {
       setIsLoading(false);
     }
@@ -86,6 +82,7 @@ export default function CameraScreen() {
     try {
       setIsLoading(true);
       const photo = await cameraRef.current.takePictureAsync({ quality: 0.8 });
+      setImageUri(photo.uri);
       await sendToSmartModel(photo.uri);
     } catch (error) {
       Alert.alert('Error', 'No se pudo capturar la imagen.');
@@ -105,6 +102,7 @@ export default function CameraScreen() {
 
       const selected = result.assets[0];
       setIsLoading(true);
+      setImageUri(selected.uri);
       await sendToSmartModel(selected.uri);
     } catch (error) {
       Alert.alert('Error al elegir imagen');

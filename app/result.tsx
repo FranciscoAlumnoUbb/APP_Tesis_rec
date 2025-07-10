@@ -35,14 +35,27 @@ export default function ResultScreen() {
 
   const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
 
-  const boxes = JSON.parse(
-    Array.isArray(boundingBoxes) ? boundingBoxes[0] : boundingBoxes || '[]'
-  );
+  // Manejo seguro del parsing de boundingBoxes
+  let boxes = [];
+  try {
+    const boundingBoxesParam = Array.isArray(boundingBoxes) ? boundingBoxes[0] : boundingBoxes;
+    if (boundingBoxesParam && typeof boundingBoxesParam === 'string') {
+      boxes = JSON.parse(boundingBoxesParam);
+    }
+  } catch (error) {
+    console.error('Error parsing boundingBoxes:', error);
+    boxes = [];
+  }
+  
+  // Asegurar que boxes es un array
+  if (!Array.isArray(boxes)) {
+    boxes = [];
+  }
   const imageUri = Array.isArray(uri) ? uri[0] : uri;
 
   const classCount: Record<string, number> = {};
   boxes.forEach((box: any) => {
-    const label = box.label || 'otro';
+    const label = box.label || box.clase || 'otro';
     classCount[label] = (classCount[label] || 0) + 1;
   });
 
@@ -71,10 +84,12 @@ export default function ResultScreen() {
             style={styles.imageBackground}
           >
             {boxes.map((box: any, idx: number) => {
-              const [x1, y1, x2, y2] = box.box;
-              const label = box.label || 'desconocido';
+              // Manejo seguro del bounding box
+              const boxCoords = box.box || box.bbox || [0, 0, 100, 100];
+              const [x1, y1, x2, y2] = Array.isArray(boxCoords) ? boxCoords : [0, 0, 100, 100];
+              const label = box.label || box.clase || 'desconocido';
               const color = classColors[label] || '#00ffff';
-              const confidence = box.confidence ?? 0;
+              const confidence = box.confidence ?? box.confianza ?? 0;
 
               const left = (x1 / 640) * imageSize.width;
               const top = (y1 / 640) * imageSize.height;

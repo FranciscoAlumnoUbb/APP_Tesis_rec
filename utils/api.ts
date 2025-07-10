@@ -1,15 +1,25 @@
-import { API_URL } from '@/constants/config';
+import { API_URL, CONFIG } from '@/constants/config';
+import { ENVIRONMENT, checkBackendHealth } from '@/constants/environment';
 import * as FileSystem from 'expo-file-system';
 import { Platform } from 'react-native';
 
 export async function predictImage(fileUri: string) {
   try {
+    // Verificar si el backend está disponible
+    const isBackendAvailable = await checkBackendHealth();
+    if (!isBackendAvailable) {
+      throw new Error('Backend no disponible. Asegúrate de que el servidor esté ejecutándose.');
+    }
+
+    // Usar la configuración de ambiente
+    const baseURL = ENVIRONMENT.getAPIBaseURL();
+    
     if (Platform.OS === 'web') {
       const base64 = await FileSystem.readAsStringAsync(fileUri, {
         encoding: FileSystem.EncodingType.Base64,
       });
 
-      const response = await fetch(`${API_URL}/predict_base64`, {
+      const response = await fetch(`${baseURL}${CONFIG.ENDPOINTS.PREDICT_BASE64}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ image: base64 }),
@@ -30,7 +40,7 @@ export async function predictImage(fileUri: string) {
 
       console.log('📸 Enviando imagen desde:', fileUri);
 
-      const response = await fetch(`${API_URL}/predict`, {
+      const response = await fetch(`${baseURL}${CONFIG.ENDPOINTS.PREDICT}`, {
         method: 'POST',
         body: formData,
       });
