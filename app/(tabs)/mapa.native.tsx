@@ -9,8 +9,11 @@ import {
   Linking,
   ScrollView,
   TouchableOpacity,
-  Modal
+  Modal,
+  Platform
 } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import MapView, { Marker, PROVIDER_GOOGLE, Region } from 'react-native-maps';
 import * as Location from 'expo-location';
 import puntosLimpios from '../../data/puntos_limpios.json';
@@ -32,6 +35,9 @@ export default function MapaNativo() {
   const [nearestPoint, setNearestPoint] = useState<typeof puntosLimpios[0] | null>(null);
   const [filtroMaterial, setFiltroMaterial] = useState<string>('Mostrar todos');
   const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
+  
+  // Hook para obtener las dimensiones de las safe areas
+  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     (async () => {
@@ -125,14 +131,19 @@ export default function MapaNativo() {
 
   if (!region || !location) {
     return (
-      <View style={styles.loading}>
-        <ActivityIndicator size="large" color="#007aff" />
+      <View style={[styles.container, { paddingTop: insets.top }]}>
+        <StatusBar style="light" />
+        <View style={styles.loading}>
+          <ActivityIndicator size="large" color="#007aff" />
+        </View>
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: insets.top }]}>
+      <StatusBar style="light" />
+      
       {/* Filtro desplegable */}
       <View style={styles.filtroContainer}>
         <TouchableOpacity
@@ -155,7 +166,7 @@ export default function MapaNativo() {
         onRequestClose={() => setDropdownVisible(false)}
       >
         <TouchableOpacity
-          style={styles.modalOverlay}
+          style={[styles.modalOverlay, { paddingTop: insets.top }]}
           activeOpacity={1}
           onPress={() => setDropdownVisible(false)}
         >
@@ -189,59 +200,76 @@ export default function MapaNativo() {
         </TouchableOpacity>
       </Modal>
 
-      <MapView
-        provider={PROVIDER_GOOGLE}
-        style={styles.map}
-        region={region}
-        showsUserLocation={true}
-      >
-        {filtrarPuntos().map((punto, index) => (
-          <Marker
-            key={index}
-            coordinate={{ latitude: punto.lat, longitude: punto.lng }}
-            title={punto.nombre}
-            description={`${punto.direccion} - Materiales: ${punto.materiales.join(', ')}`}
-          />
-        ))}
-      </MapView>
+      <View style={styles.mapContainer}>
+        <MapView
+          provider={PROVIDER_GOOGLE}
+          style={styles.map}
+          region={region}
+          showsUserLocation={true}
+        >
+          {filtrarPuntos().map((punto, index) => (
+            <Marker
+              key={index}
+              coordinate={{ latitude: punto.lat, longitude: punto.lng }}
+              title={punto.nombre}
+              description={`${punto.direccion} - Materiales: ${punto.materiales.join(', ')}`}
+            />
+          ))}
+        </MapView>
 
-      {nearestPoint && (
-        <View style={styles.card}>
-          <Text style={styles.title}>📍 Punto más cercano</Text>
-          <Text style={styles.nombrePunto}>{nearestPoint.nombre}</Text>
-          <Text style={styles.subtitle}>{nearestPoint.direccion}</Text>
-          <Text style={styles.materialesTexto}>
-            Materiales: {nearestPoint.materiales.join(', ')}
-          </Text>
-          <Button
-            title="Ir con Google Maps"
-            onPress={() =>
-              Linking.openURL(
-                `https://www.google.com/maps/dir/?api=1&destination=${nearestPoint.lat},${nearestPoint.lng}`
-              )
-            }
-          />
-        </View>
-      )}
+        {nearestPoint && (
+          <View style={[styles.card, { marginBottom: insets.bottom + 70 }]}>
+            <Text style={styles.title}>📍 Punto más cercano</Text>
+            <Text style={styles.nombrePunto}>{nearestPoint.nombre}</Text>
+            <Text style={styles.subtitle}>{nearestPoint.direccion}</Text>
+            <Text style={styles.materialesTexto}>
+              Materiales: {nearestPoint.materiales.join(', ')}
+            </Text>
+            <Button
+              title="Ir con Google Maps"
+              onPress={() =>
+                Linking.openURL(
+                  `https://www.google.com/maps/dir/?api=1&destination=${nearestPoint.lat},${nearestPoint.lng}`
+                )
+              }
+            />
+          </View>
+        )}
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: { 
+    flex: 1,
+    backgroundColor: '#007aff', // Color sólido para el status bar
+  },
   loading: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#f8f9fa',
   },
-  map: { flex: 1 },
+  mapContainer: {
+    flex: 1,
+    backgroundColor: '#f8f9fa',
+  },
+  map: { 
+    flex: 1 
+  },
   card: {
+    position: 'absolute',
+    bottom: 10,
+    left: 10,
+    right: 10,
     backgroundColor: '#fff',
     padding: 12,
-    elevation: 4,
+    elevation: 6,
     shadowColor: '#000',
     shadowOpacity: 0.2,
     shadowOffset: { width: 0, height: 2 },
+    borderRadius: 8,
   },
   title: { 
     fontWeight: 'bold', 
@@ -271,10 +299,11 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#e0e0e0',
-    elevation: 2,
+    elevation: 3,
     shadowColor: '#000',
     shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: { width: 0, height: 2 },
+    zIndex: 100,
   },
   dropdownButton: {
     backgroundColor: '#fff',
@@ -308,7 +337,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalContainer: {
-    marginTop: 70, // Posicionar debajo del botón
+    marginTop: 80, // Posicionar debajo del filtro + status bar
     width: '90%',
     maxWidth: 400,
   },

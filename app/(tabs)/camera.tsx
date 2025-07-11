@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import NetInfo from '@react-native-community/netinfo';
 import { predictImage } from '@/services/api'; // predicción online
 import { predictOffline } from '@/services/loadTFModel'; // predicción offline
@@ -22,6 +23,9 @@ export default function CameraScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const [imageUri, setImageUri] = useState<string | null>(null);
   const cameraRef = useRef<any>(null);
+  
+  // Hook para obtener las dimensiones de las safe areas
+  const insets = useSafeAreaInsets();
 
   useFocusEffect(
     React.useCallback(() => {
@@ -125,7 +129,7 @@ export default function CameraScreen() {
   return (
     <View style={styles.container}>
       <CameraView ref={cameraRef} style={styles.camera} facing={facing} />
-      <View style={styles.overlay}>
+      <View style={[styles.overlay, { bottom: Math.max(insets.bottom + 60, 100) }]}>
         <TouchableOpacity onPress={toggleFacing} style={styles.button}>
           <Text style={styles.text}>🔁 Cambiar</Text>
         </TouchableOpacity>
@@ -137,7 +141,12 @@ export default function CameraScreen() {
         </TouchableOpacity>
       </View>
       {imageUri && <Image source={{ uri: imageUri }} style={styles.preview} />}
-      {isLoading && <ActivityIndicator size="large" />}
+      {isLoading && (
+        <View style={styles.loadingOverlay}>
+          <ActivityIndicator size="large" color="#007aff" />
+          <Text style={styles.loadingText}>Procesando imagen...</Text>
+        </View>
+      )}
     </View>
   );
 }
@@ -148,17 +157,19 @@ const styles = StyleSheet.create({
   camera: { flex: 1 },
   overlay: {
     position: 'absolute',
-    bottom: 40,
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'space-evenly',
+    paddingHorizontal: 20,
   },
   button: {
     backgroundColor: '#2c2c2e',
     padding: 12,
     borderRadius: 8,
+    minWidth: 80,
+    alignItems: 'center',
   },
-  text: { color: '#fff', fontSize: 16 },
+  text: { color: '#fff', fontSize: 16, fontWeight: '600' },
   preview: {
     width: 200,
     height: 200,
@@ -166,5 +177,25 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#666',
     alignSelf: 'center',
+    position: 'absolute',
+    top: 50,
+    right: 10,
+    borderRadius: 8,
+  },
+  loadingOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    color: '#fff',
+    marginTop: 10,
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
