@@ -24,8 +24,15 @@
         "CAMERA",
         "INTERNET",
         "ACCESS_NETWORK_STATE",
-        "ACCESS_WIFI_STATE"
-      ]
+        "ACCESS_WIFI_STATE",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ],
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDByHWYJ-mMy3_rKfNAYIpxzliAR8orJSA"
+        }
+      }
     },
     "web": {
       "bundler": "metro",
